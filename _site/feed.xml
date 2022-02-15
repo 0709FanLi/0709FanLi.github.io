@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="http://localhost:4000/jekyll-gitbook/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/jekyll-gitbook/" rel="alternate" type="text/html" /><updated>2022-02-16T02:41:05+08:00</updated><id>http://localhost:4000/jekyll-gitbook/feed.xml</id><title type="html">Jekyll Gitbook</title><subtitle>Build Jekyll site with the GitBook style.
+</subtitle><author><name>HE Tao</name></author><entry><title type="html">Eventloop</title><link href="http://localhost:4000/jekyll-gitbook/2022-01-08-eventLoop.html" rel="alternate" type="text/html" title="Eventloop" /><published>2022-01-08T00:00:00+08:00</published><updated>2022-01-08T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/eventLoop</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/2022-01-08-eventLoop.html"><![CDATA[<p>事件循环</p>
+
+<h2 id="宏任务和微任务">宏任务和微任务</h2>
+
+<ol>
+  <li>宏任务：script 所有代码、settimeout、setinterval、setImmediate、（只有 IE10 实现）、I/O、UI Rending</li>
+  <li>微任务：Process.nextTick(Node 独有)、Promise、Object.ovserve、MuationServer(<a href="http://javascript.ruanyifeng.com/dom/mutationobserver.html">具体使用方式看这里</a>)</li>
+</ol>
+
+<p>宏任务 6 种，微任务 4 种，总共 10 种，一个只有 IE10 实现，一个被废弃。</p>
+
+<h2 id="eventloop">EventLoop</h2>
+
+<ol>
+  <li>执行 script 脚本所有代码</li>
+  <li>将同步任务放到宏任务队列，将异步任务放到微任务队列</li>
+  <li>执行所有的同步任务，执行完毕如果有微任务队列有微任务，执行微任务</li>
+  <li>执行 UI 线程渲染任务</li>
+  <li><code class="language-plaintext highlighter-rouge">检查是否有WebWorker任务，有则执行</code>(易忘)</li>
+  <li>返回到第二步循环执行 ##经典题目</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Promise.resolve().then(()=&gt;{
+  console.log('Promise1')
+  setTimeout(()=&gt;{
+    console.log('setTimeout2')
+  },0)
+});
+setTimeout(()=&gt;{
+  console.log('setTimeout1')
+  Promise.resolve().then(()=&gt;{
+    console.log('Promise2')
+  })
+},0);
+console.log('start');
+
+// start
+// Promise1
+// setTimeout1
+// Promise2
+// setTimeout2
+
+</code></pre></div></div>]]></content><author><name>HE Tao</name></author><summary type="html"><![CDATA[事件循环]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/update/2022-01-05-welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2022-01-05T01:35:48+08:00</published><updated>2022-01-05T01:35:48+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/update/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/update/2022-01-05-welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+
+<p>Jekyll requires blog post files to be named according to the following format:</p>
+
+<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
+
+<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name>HE Tao</name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated. Jekyll requires blog post files to be named according to the following format: YEAR-MONTH-DAY-title.MARKUP Where YEAR is a four-digit number, MONTH and DAY are both two-digit numbers, and MARKUP is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works. Jekyll also offers powerful support for code snippets: def print_hi(name) puts "Hi, #{name}" end print_hi('Tom') #=&gt; prints 'Hi, Tom' to STDOUT. Check out the Jekyll docs for more info on how to get the most out of Jekyll. File all bugs/feature requests at Jekyll’s GitHub repo. If you have questions, you can ask them on Jekyll Talk.]]></summary></entry><entry><title type="html">Vue</title><link href="http://localhost:4000/jekyll-gitbook/2022-01-05-vue.html" rel="alternate" type="text/html" title="Vue" /><published>2022-01-05T00:00:00+08:00</published><updated>2022-01-05T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/vue</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/2022-01-05-vue.html"><![CDATA[<h1 id="vue基础遗漏的点">vue基础遗漏的点</h1>
+<ol>
+  <li>输入!，构建 html5 文档</li>
+  <li>mvvm 解释:
+    <ul>
+      <li>第一个 m 代表 model 数据，</li>
+      <li>第一个 v 代表 view 视图，</li>
+      <li>最后两个字母 vm 代表 viewModel 视图数据连接层。</li>
+    </ul>
+  </li>
+  <li>methods 和 computed 的区别
+    <ul>
+      <li>methods: 只要页面重新渲染，就会重新执行方法</li>
+      <li>computed: 当计算属性依赖的内容发生变更时，才会重新计算</li>
+    </ul>
+  </li>
+  <li>watch 和 computed 的区别
+    <ul>
+      <li>watch: 不必要返回一个值，值不变化不会执行逻辑</li>
+      <li>computed: 计算属性必须要返回一个值，页面渲染就会执行</li>
+    </ul>
+  </li>
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div :class="$attrs.class"&gt;SonCom&lt;/div&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>v-for 注意的点</p>
+
+    <ul>
+      <li>v-for 循环对象</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;ul&gt;
+     &lt;li v-for="(value,key,index)  in listObject" :key="key"&gt;
+         []-
+     &lt;/li&gt;
+ &lt;/ul&gt;
+</code></pre></div>    </div>
+
+    <ul>
+      <li>v-for 循环数字</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;span v-for="count in 99"&gt;8,&lt;/span&gt;
+</code></pre></div>    </div>
+
+    <ul>
+      <li>v-for v-if 问题解决 多个 div 的问题</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;ul&gt;
+     &lt;div
+         v-for="(item,index) in listArray"
+         :key="index+item"
+     &gt;
+     &lt;li v-if="item != '刘英'"&gt;
+         []
+     &lt;/li&gt;
+     &lt;/div&gt;
+ &lt;/ul&gt;
+</code></pre></div>    </div>
+
+    <ul>
+      <li>v-for template 模板</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;ul&gt;
+     &lt;template
+         v-for="(item,index) in listArray"
+         :key="index+item"
+     &gt;
+     &lt;li v-if="item != '刘英'"&gt;
+         []
+     &lt;/li&gt;
+     &lt;/template&gt;
+ &lt;/ul&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>双向绑定中 checked true-value false-value
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;div&gt;
+        
+     &lt;input
+         type="checkbox"
+         v-model="name"
+         true-value="JSPang.com"
+         false-value="技术胖"
+         /&gt;
+ &lt;/div&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Non-prop
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> const app = Vue.createApp({
+     template: `
+         &lt;h2&gt;JSPang.com&lt;/h2&gt;
+         &lt;hello style="color:red;" /&gt;
+     `
+ })
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>作用域插槽</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> const app = Vue.createApp({
+         template:
+         `
+             &lt;h2&gt;欢迎光临红浪漫-请选择您的技师&lt;/h2&gt;
+             &lt;list v-slot="props"&gt;
+                 &lt;div&gt;&lt;/div&gt;
+             &lt;/list&gt;
+             &lt;list v-slot="{item}"&gt;
+                 &lt;div&gt;&lt;/div&gt;
+             &lt;/list&gt;
+         `
+     })
+
+     app.component('List', {
+         data() {
+             return {
+                 list: ['刘英', '晓红']
+             }
+         },
+         template:
+         `
+             &lt;div&gt;
+                 &lt;slot v-for="item in list" :item="item" /&gt;
+             &lt;/div&gt;
+         `
+     })
+</code></pre></div>    </div>
+  </li>
+</ol>]]></content><author><name>HE Tao</name></author><summary type="html"><![CDATA[vue基础遗漏的点 输入!，构建 html5 文档 mvvm 解释: 第一个 m 代表 model 数据， 第一个 v 代表 view 视图， 最后两个字母 vm 代表 viewModel 视图数据连接层。 methods 和 computed 的区别 methods: 只要页面重新渲染，就会重新执行方法 computed: 当计算属性依赖的内容发生变更时，才会重新计算 watch 和 computed 的区别 watch: 不必要返回一个值，值不变化不会执行逻辑 computed: 计算属性必须要返回一个值，页面渲染就会执行 &lt;div :class="$attrs.class"&gt;SonCom&lt;/div&gt; v-for 注意的点]]></summary></entry><entry><title type="html">Es678910</title><link href="http://localhost:4000/jekyll-gitbook/2022-01-04-ES678910.html" rel="alternate" type="text/html" title="Es678910" /><published>2022-01-04T00:00:00+08:00</published><updated>2022-01-04T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/ES678910</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/2022-01-04-ES678910.html"><![CDATA[<h1 id="es6-es7-es8">ES6 ES7 ES8</h1>]]></content><author><name>HE Tao</name></author><summary type="html"><![CDATA[ES6 ES7 ES8]]></summary></entry></feed>

@@ -1,0 +1,44 @@
+I"�<p>事件循环</p>
+
+<h2 id="宏任务和微任务">宏任务和微任务</h2>
+
+<ol>
+  <li>宏任务：script 所有代码、settimeout、setinterval、setImmediate、（只有 IE10 实现）、I/O、UI Rending</li>
+  <li>微任务：Process.nextTick(Node 独有)、Promise、Object.ovserve、MuationServer(<a href="http://javascript.ruanyifeng.com/dom/mutationobserver.html">具体使用方式看这里</a>)</li>
+</ol>
+
+<p>宏任务 6 种，微任务 4 种，总共 10 种，一个只有 IE10 实现，一个被废弃。</p>
+
+<h2 id="eventloop">EventLoop</h2>
+
+<ol>
+  <li>执行 script 脚本所有代码</li>
+  <li>将同步任务放到宏任务队列，将异步任务放到微任务队列</li>
+  <li>执行所有的同步任务，执行完毕如果有微任务队列有微任务，执行微任务</li>
+  <li>执行 UI 线程渲染任务</li>
+  <li><code class="language-plaintext highlighter-rouge">检查是否有WebWorker任务，有则执行</code>(易忘)</li>
+  <li>返回到第二步循环执行 ##经典题目</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Promise.resolve().then(()=&gt;{
+  console.log('Promise1')
+  setTimeout(()=&gt;{
+    console.log('setTimeout2')
+  },0)
+});
+setTimeout(()=&gt;{
+  console.log('setTimeout1')
+  Promise.resolve().then(()=&gt;{
+    console.log('Promise2')
+  })
+},0);
+console.log('start');
+
+// start
+// Promise1
+// setTimeout1
+// Promise2
+// setTimeout2
+
+</code></pre></div></div>
+:ET

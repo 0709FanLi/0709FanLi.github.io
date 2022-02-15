@@ -1,0 +1,133 @@
+I"�<h1 id="vue基础遗漏的点">vue基础遗漏的点</h1>
+<ol>
+  <li>输入!，构建 html5 文档</li>
+  <li>mvvm 解释:
+    <ul>
+      <li>第一个 m 代表 model 数据，</li>
+      <li>第一个 v 代表 view 视图，</li>
+      <li>最后两个字母 vm 代表 viewModel 视图数据连接层。</li>
+    </ul>
+  </li>
+  <li>methods 和 computed 的区别
+    <ul>
+      <li>methods: 只要页面重新渲染，就会重新执行方法</li>
+      <li>computed: 当计算属性依赖的内容发生变更时，才会重新计算</li>
+    </ul>
+  </li>
+  <li>watch 和 computed 的区别
+    <ul>
+      <li>watch: 不必要返回一个值，值不变化不会执行逻辑</li>
+      <li>computed: 计算属性必须要返回一个值，页面渲染就会执行</li>
+    </ul>
+  </li>
+  <li>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div :class="$attrs.class"&gt;SonCom&lt;/div&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>v-for 注意的点</p>
+
+    <ul>
+      <li>v-for 循环对象</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;ul&gt;
+     &lt;li v-for="(value,key,index)  in listObject" :key="key"&gt;
+         []-
+     &lt;/li&gt;
+ &lt;/ul&gt;
+</code></pre></div>    </div>
+
+    <ul>
+      <li>v-for 循环数字</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;span v-for="count in 99"&gt;8,&lt;/span&gt;
+</code></pre></div>    </div>
+
+    <ul>
+      <li>v-for v-if 问题解决 多个 div 的问题</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;ul&gt;
+     &lt;div
+         v-for="(item,index) in listArray"
+         :key="index+item"
+     &gt;
+     &lt;li v-if="item != '刘英'"&gt;
+         []
+     &lt;/li&gt;
+     &lt;/div&gt;
+ &lt;/ul&gt;
+</code></pre></div>    </div>
+
+    <ul>
+      <li>v-for template 模板</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;ul&gt;
+     &lt;template
+         v-for="(item,index) in listArray"
+         :key="index+item"
+     &gt;
+     &lt;li v-if="item != '刘英'"&gt;
+         []
+     &lt;/li&gt;
+     &lt;/template&gt;
+ &lt;/ul&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>双向绑定中 checked true-value false-value
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> &lt;div&gt;
+        
+     &lt;input
+         type="checkbox"
+         v-model="name"
+         true-value="JSPang.com"
+         false-value="技术胖"
+         /&gt;
+ &lt;/div&gt;
+</code></pre></div>    </div>
+  </li>
+  <li>Non-prop
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> const app = Vue.createApp({
+     template: `
+         &lt;h2&gt;JSPang.com&lt;/h2&gt;
+         &lt;hello style="color:red;" /&gt;
+     `
+ })
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>作用域插槽</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> const app = Vue.createApp({
+         template:
+         `
+             &lt;h2&gt;欢迎光临红浪漫-请选择您的技师&lt;/h2&gt;
+             &lt;list v-slot="props"&gt;
+                 &lt;div&gt;&lt;/div&gt;
+             &lt;/list&gt;
+             &lt;list v-slot="{item}"&gt;
+                 &lt;div&gt;&lt;/div&gt;
+             &lt;/list&gt;
+         `
+     })
+
+     app.component('List', {
+         data() {
+             return {
+                 list: ['刘英', '晓红']
+             }
+         },
+         template:
+         `
+             &lt;div&gt;
+                 &lt;slot v-for="item in list" :item="item" /&gt;
+             &lt;/div&gt;
+         `
+     })
+</code></pre></div>    </div>
+  </li>
+</ol>
+:ET
